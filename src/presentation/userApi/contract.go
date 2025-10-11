@@ -45,19 +45,3 @@ func userResponseFromDomain(user entity.User) userResponse {
 type userURI struct {
 	ID string `uri:"user_id"`
 }
-
-type updateUserRequest struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-}
-
-func (ref updateUserRequest) ToDomain() *entity.User {
-	return &entity.User{
-		Name:     ref.Name,
-		Email:    ref.Email,
-		Password: ref.Password,
-		Role:     ref.Role,
-	}
-}

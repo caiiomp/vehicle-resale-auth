@@ -16,8 +16,6 @@ type UserRepository interface {
 	GetByID(ctx context.Context, id string) (*entity.User, error)
 	GetByEmail(ctx context.Context, email string) (*entity.User, error)
 	Search(ctx context.Context) ([]entity.User, error)
-	Update(ctx context.Context, id string, user entity.User) (*entity.User, error)
-	Delete(ctx context.Context, id string) error
 }
 
 type userRepository struct {
@@ -120,52 +118,4 @@ func (ref *userRepository) Search(ctx context.Context) ([]entity.User, error) {
 	}
 
 	return records, nil
-}
-
-func (ref *userRepository) Update(ctx context.Context, id string, user entity.User) (*entity.User, error) {
-	record := model.UserFromDomain(user)
-	record.UpdatedAt = time.Now()
-
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
-	update := bson.M{
-		"$set": record,
-	}
-
-	_, err = ref.collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
-	if err != nil {
-		return nil, err
-	}
-
-	result := ref.collection.FindOne(ctx, bson.M{"_id": objectID})
-	if err = result.Err(); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	var recordToReturn model.User
-	if err = result.Decode(&recordToReturn); err != nil {
-		return nil, err
-	}
-
-	return recordToReturn.ToDomain(), nil
-}
-
-func (ref *userRepository) Delete(ctx context.Context, id string) error {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return err
-	}
-
-	_, err = ref.collection.DeleteOne(ctx, bson.M{"_id": objectID})
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

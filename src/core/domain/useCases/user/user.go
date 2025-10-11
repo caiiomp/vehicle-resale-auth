@@ -13,8 +13,6 @@ type UserService interface {
 	Create(ctx context.Context, user entity.User) (*entity.User, error)
 	GetByID(ctx context.Context, id string) (*entity.User, error)
 	Search(ctx context.Context) ([]entity.User, error)
-	Update(ctx context.Context, id string, user entity.User) (*entity.User, error)
-	Delete(ctx context.Context, id string) error
 }
 
 type userService struct {
@@ -53,21 +51,4 @@ func (ref *userService) GetByID(ctx context.Context, id string) (*entity.User, e
 
 func (ref *userService) Search(ctx context.Context) ([]entity.User, error) {
 	return ref.userRepository.Search(ctx)
-}
-
-func (ref *userService) Update(ctx context.Context, id string, user entity.User) (*entity.User, error) {
-	if user.Password != "" {
-		passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-		if err != nil {
-			return nil, err
-		}
-
-		user.PasswordHash = string(passwordHash)
-	}
-
-	return ref.userRepository.Update(ctx, id, user)
-}
-
-func (ref *userService) Delete(ctx context.Context, id string) error {
-	return ref.userRepository.Delete(ctx, id)
 }

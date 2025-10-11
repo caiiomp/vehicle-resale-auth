@@ -20,8 +20,6 @@ func RegisterUserRoutes(app *gin.Engine, userService user.UserService) {
 	app.POST("/users", service.create)
 	app.GET("/users", service.search)
 	app.GET("/users/:user_id", service.get)
-	app.PATCH("/users/:user_id", service.update)
-	app.DELETE("/users/:user_id", service.delete)
 }
 
 func (ref *userApi) create(ctx *gin.Context) {
@@ -82,47 +80,4 @@ func (ref *userApi) get(ctx *gin.Context) {
 
 	response := userResponseFromDomain(*user)
 	ctx.JSON(http.StatusOK, response)
-}
-
-func (ref *userApi) update(ctx *gin.Context) {
-	var uri userURI
-	if err := ctx.ShouldBindUri(&uri); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	var request updateUserRequest
-	if err := ctx.ShouldBindJSON(&request); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	user, err := ref.userService.Update(ctx, uri.ID, *request.ToDomain())
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	if user == nil {
-		ctx.JSON(http.StatusNoContent, nil)
-		return
-	}
-
-	response := userResponseFromDomain(*user)
-	ctx.JSON(http.StatusOK, response)
-}
-
-func (ref *userApi) delete(ctx *gin.Context) {
-	var uri userURI
-	if err := ctx.ShouldBindUri(&uri); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := ref.userService.Delete(ctx, uri.ID); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	ctx.JSON(http.StatusNoContent, nil)
 }
