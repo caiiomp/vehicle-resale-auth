@@ -56,6 +56,15 @@ func (ref *userService) Search(ctx context.Context) ([]entity.User, error) {
 }
 
 func (ref *userService) Update(ctx context.Context, id string, user entity.User) (*entity.User, error) {
+	if user.Password != "" {
+		passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+		if err != nil {
+			return nil, err
+		}
+
+		user.PasswordHash = string(passwordHash)
+	}
+
 	return ref.userRepository.Update(ctx, id, user)
 }
 

@@ -30,11 +30,12 @@ func UserFromDomain(user entity.User) User {
 
 func (ref User) ToDomain() *entity.User {
 	return &entity.User{
-		ID:        ref.ID,
-		Name:      ref.Name,
-		Email:     ref.Email,
-		Role:      ref.Role,
-		CreatedAt: ref.CreatedAt,
-		UpdatedAt: ref.UpdatedAt,
+		ID:           ref.ID,
+		Name:         ref.Name,
+		Email:        ref.Email,
+		Role:         ref.Role,
+		PasswordHash: ref.PasswordHash,
+		CreatedAt:    ref.CreatedAt,
+		UpdatedAt:    ref.UpdatedAt,
 	}
 }

@@ -6,7 +6,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/auth"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/user"
+	"github.com/caiiomp/vehicle-resale-auth/src/presentation/authApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/userApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
 	"github.com/gin-gonic/gin"
@@ -18,6 +20,8 @@ func main() {
 	var (
 		mongoURI      = os.Getenv("MONGO_URI")
 		mongoDatabase = os.Getenv("MONGO_DATABASE")
+
+		jwtSecretKey = os.Getenv("JWT_SECRET_KEY")
 	)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -37,11 +41,14 @@ func main() {
 	collection := mongoClient.Database(mongoDatabase).Collection("vehicles")
 
 	userRepository := userRepository.NewUserRepository(collection)
+
 	userService := user.NewUserRepository(userRepository)
+	authService := auth.NewAuthService(userRepository, jwtSecretKey)
 
 	app := gin.Default()
 
 	userApi.RegisterUserRoutes(app, userService)
+	authApi.RegisterAuthRoutes(app, authService)
 
 	if err = app.Run(":4000"); err != nil {
 		log.Fatalf("coult not initialize http server: %v", err)

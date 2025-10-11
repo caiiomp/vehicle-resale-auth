@@ -83,13 +83,8 @@ func (ref *userRepository) GetByID(ctx context.Context, id string) (*entity.User
 }
 
 func (ref *userRepository) GetByEmail(ctx context.Context, email string) (*entity.User, error) {
-	objectID, err := primitive.ObjectIDFromHex(email)
-	if err != nil {
-		return nil, err
-	}
-
-	result := ref.collection.FindOne(ctx, bson.M{"email": objectID})
-	if err = result.Err(); err != nil {
+	result := ref.collection.FindOne(ctx, bson.M{"email": email})
+	if err := result.Err(); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
@@ -97,7 +92,7 @@ func (ref *userRepository) GetByEmail(ctx context.Context, email string) (*entit
 	}
 
 	var record model.User
-	if err = result.Decode(&record); err != nil {
+	if err := result.Decode(&record); err != nil {
 		return nil, err
 	}
 
