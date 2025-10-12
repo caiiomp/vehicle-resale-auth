@@ -20,7 +20,7 @@ func UserFromDomain(user entity.User) User {
 		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
-		Role:      user.Role,
+		Role:      user.Role.Value,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 	}

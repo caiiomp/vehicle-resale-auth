@@ -48,7 +48,7 @@ func (ref *authService) Login(ctx context.Context, email string, password string
 
 	claims := jwt.MapClaims{
 		"user_id": user.ID,
-		"role":    user.Role,
+		"role":    user.Role.Value,
 		"exp":     expiresIn,
 	}
 

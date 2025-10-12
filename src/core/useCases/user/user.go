@@ -6,6 +6,7 @@ import (
 
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
 	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
+	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,16 +17,22 @@ type UserService interface {
 }
 
 type userService struct {
+	validate       *validator.Validate
 	userRepository userRepository.UserRepository
 }
 
-func NewUserRepository(userRepository userRepository.UserRepository) UserService {
+func NewUserService(validate *validator.Validate, userRepository userRepository.UserRepository) UserService {
 	return &userService{
+		validate:       validate,
 		userRepository: userRepository,
 	}
 }
 
 func (ref *userService) Create(ctx context.Context, user entity.User) (*entity.User, error) {
+	if err := ref.validate.Struct(user); err != nil {
+		return nil, err
+	}
+
 	existingUser, err := ref.userRepository.GetByEmail(ctx, user.Email)
 	if err != nil {
 		return nil, err

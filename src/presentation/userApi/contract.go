@@ -4,13 +4,14 @@ import (
 	"time"
 
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
+	valueoObjects "github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 )
 
 type createUserRequest struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
+	Name     string `json:"name" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+	Role     string `json:"role" binding:"required"`
 }
 
 func (ref createUserRequest) ToDomain() *entity.User {
@@ -18,7 +19,7 @@ func (ref createUserRequest) ToDomain() *entity.User {
 		Name:     ref.Name,
 		Email:    ref.Email,
 		Password: ref.Password,
-		Role:     ref.Role,
+		Role:     valueoObjects.RoleType{Value: ref.Role},
 	}
 }
 
@@ -36,7 +37,7 @@ func userResponseFromDomain(user entity.User) userResponse {
 		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
-		Role:      user.Role,
+		Role:      user.Role.Value,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 	}

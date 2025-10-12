@@ -3,8 +3,8 @@ package authApi
 import (
 	"net/http"
 
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/auth"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/responses"
+	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/auth"
 	"github.com/gin-gonic/gin"
 )
 

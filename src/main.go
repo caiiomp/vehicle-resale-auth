@@ -6,14 +6,18 @@ import (
 	"os"
 	"time"
 
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/auth"
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/user"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	_ "github.com/joho/godotenv/autoload"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
+	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/auth"
+	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/user"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/authApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/userApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
-	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func main() {
@@ -22,7 +26,11 @@ func main() {
 		mongoDatabase = os.Getenv("MONGO_DATABASE")
 
 		jwtSecretKey = os.Getenv("JWT_SECRET_KEY")
+
+		validate = validator.New()
 	)
+
+	addValidators(validate)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -42,7 +50,7 @@ func main() {
 
 	userRepository := userRepository.NewUserRepository(collection)
 
-	userService := user.NewUserRepository(userRepository)
+	userService := user.NewUserService(validate, userRepository)
 	authService := auth.NewAuthService(userRepository, jwtSecretKey)
 
 	app := gin.Default()
@@ -53,4 +61,8 @@ func main() {
 	if err = app.Run(":4000"); err != nil {
 		log.Fatalf("coult not initialize http server: %v", err)
 	}
+}
+
+func addValidators(validate *validator.Validate) {
+	validate.RegisterStructValidation(valueObjects.RoleTypeValidation, valueObjects.RoleType{})
 }

@@ -3,8 +3,8 @@ package userApi
 import (
 	"net/http"
 
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/useCases/user"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/responses"
+	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/user"
 	"github.com/gin-gonic/gin"
 )
 
