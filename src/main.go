@@ -9,12 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/joho/godotenv/autoload"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/auth"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/user"
+	_ "github.com/caiiomp/vehicle-resale-auth/src/docs"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/authApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/userApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
@@ -54,6 +57,8 @@ func main() {
 	authService := auth.NewAuthService(userRepository, jwtSecretKey)
 
 	app := gin.Default()
+
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	userApi.RegisterUserRoutes(app, userService)
 	authApi.RegisterAuthRoutes(app, authService)
