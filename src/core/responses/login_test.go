@@ -13,12 +13,12 @@ func TestLoginResponseFromDomain(t *testing.T) {
 		ExpiresIn:   123,
 	}
 
-	expected := LoginResponse{
+	expected := Login{
 		AccessToken: "123",
 		ExpiresIn:   123,
 	}
 
-	actual := LoginResponseFromDomain(auth)
+	actual := LoginFromDomain(auth)
 
 	assert.Equal(t, expected, actual)
 }
