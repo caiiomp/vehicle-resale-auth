@@ -6,6 +6,7 @@ import (
 	context "context"
 
 	entity "github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
+
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -14,9 +15,9 @@ type UserService struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: ctx, _a1
-func (_m *UserService) Create(ctx context.Context, _a1 entity.User) (*entity.User, error) {
-	ret := _m.Called(ctx, _a1)
+// Create provides a mock function with given fields: ctx, user
+func (_m *UserService) Create(ctx context.Context, user entity.User) (*entity.User, error) {
+	ret := _m.Called(ctx, user)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Create")
@@ -25,10 +26,10 @@ func (_m *UserService) Create(ctx context.Context, _a1 entity.User) (*entity.Use
 	var r0 *entity.User
 	var r1 error
 	if rf, ok := ret.Get(0).(func(context.Context, entity.User) (*entity.User, error)); ok {
-		return rf(ctx, _a1)
+		return rf(ctx, user)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, entity.User) *entity.User); ok {
-		r0 = rf(ctx, _a1)
+		r0 = rf(ctx, user)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.User)
@@ -36,7 +37,7 @@ func (_m *UserService) Create(ctx context.Context, _a1 entity.User) (*entity.Use
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, entity.User) error); ok {
-		r1 = rf(ctx, _a1)
+		r1 = rf(ctx, user)
 	} else {
 		r1 = ret.Error(1)
 	}

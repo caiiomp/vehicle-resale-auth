@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	interfaces "github.com/caiiomp/vehicle-resale-auth/src/core/_interfaces"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
 	"github.com/caiiomp/vehicle-resale-auth/src/repository/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,18 +12,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type UserRepository interface {
-	Create(ctx context.Context, user entity.User) (*entity.User, error)
-	GetByID(ctx context.Context, id string) (*entity.User, error)
-	GetByEmail(ctx context.Context, email string) (*entity.User, error)
-	Search(ctx context.Context) ([]entity.User, error)
-}
-
 type userRepository struct {
 	collection *mongo.Collection
 }
 
-func NewUserRepository(collection *mongo.Collection) UserRepository {
+func NewUserRepository(collection *mongo.Collection) interfaces.UserRepository {
 	return &userRepository{
 		collection: collection,
 	}

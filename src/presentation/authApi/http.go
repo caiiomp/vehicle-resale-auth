@@ -3,16 +3,16 @@ package authApi
 import (
 	"net/http"
 
+	interfaces "github.com/caiiomp/vehicle-resale-auth/src/core/_interfaces"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/responses"
-	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/auth"
 	"github.com/gin-gonic/gin"
 )
 
 type authApi struct {
-	authService auth.AuthService
+	authService interfaces.AuthService
 }
 
-func RegisterAuthRoutes(app *gin.Engine, authService auth.AuthService) {
+func RegisterAuthRoutes(app *gin.Engine, authService interfaces.AuthService) {
 	service := authApi{
 		authService: authService,
 	}

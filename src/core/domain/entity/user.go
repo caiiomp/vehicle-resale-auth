@@ -2,8 +2,6 @@ package entity
 
 import (
 	"time"
-
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 )
 
 type User struct {
@@ -12,7 +10,6 @@ type User struct {
 	Email        string
 	Password     string
 	PasswordHash string
-	Role         valueObjects.RoleType
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

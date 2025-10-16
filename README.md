@@ -59,7 +59,7 @@ Antes de rodar o serviço localmente, verifique se você tem as seguintes depend
 
 ### 4. Testando a API de Autenticação
 
-Use **Postman**, **Insomnia**, **cURL** ou qualquer outro cliente **HTTP para testar os endpoints:
+Use **Postman**, **Insomnia**, **cURL** ou qualquer outro cliente **HTTP** para testar os endpoints:
 
 app.POST("/users", service.create)
 	app.GET("/users", service.search)
@@ -69,6 +69,12 @@ app.POST("/users", service.create)
 - `POST /login` - Realizar login e obter um token JWT.
 - `GET /users` - Listar todos os usuários.
 - `GET /users/:user_id` - Buscar um usuário pelo id.
+
+Os testes unitários e os testes de integração podem ser executados da seguinte forma respectivamente:
+```bash
+    go test ./... -v
+    go test -tags=integration -v ./...
+```
 
 ### 5. Protegendo Endpoints com JWT
 
