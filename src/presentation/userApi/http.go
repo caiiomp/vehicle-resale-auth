@@ -3,16 +3,16 @@ package userApi
 import (
 	"net/http"
 
+	interfaces "github.com/caiiomp/vehicle-resale-auth/src/core/_interfaces"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/responses"
-	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/user"
 	"github.com/gin-gonic/gin"
 )
 
 type userApi struct {
-	userService user.UserService
+	userService interfaces.UserService
 }
 
-func RegisterUserRoutes(app *gin.Engine, userService user.UserService) {
+func RegisterUserRoutes(app *gin.Engine, userService interfaces.UserService) {
 	service := userApi{
 		userService: userService,
 	}

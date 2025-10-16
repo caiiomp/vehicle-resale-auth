@@ -8,7 +8,6 @@ import (
 
 	mocks "github.com/caiiomp/vehicle-resale-auth/src/core/_mocks"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -24,7 +23,6 @@ func TestCreate(t *testing.T) {
 			Name:     "John Doe",
 			Email:    "john.doe@email.com",
 			Password: "123",
-			Role:     valueObjects.RoleTypeAdmin,
 		}
 
 		userRepositoryMocked := mocks.NewUserRepository(t)
@@ -45,7 +43,6 @@ func TestCreate(t *testing.T) {
 			Name:     "John Doe",
 			Email:    "john.doe@email.com",
 			Password: "123",
-			Role:     valueObjects.RoleTypeAdmin,
 		}
 
 		userRepositoryMocked := mocks.NewUserRepository(t)
@@ -66,7 +63,6 @@ func TestCreate(t *testing.T) {
 			Name:     "John Doe",
 			Email:    "john.doe@email.com",
 			Password: "123",
-			Role:     valueObjects.RoleTypeAdmin,
 		}
 
 		userRepositoryMocked := mocks.NewUserRepository(t)
@@ -115,7 +111,6 @@ func TestGetByID(t *testing.T) {
 			Email:        "john.doe@email.com",
 			Password:     "123",
 			PasswordHash: "xxx",
-			Role:         valueObjects.RoleTypeAdmin,
 			CreatedAt:    now,
 			UpdatedAt:    now,
 		}
@@ -165,7 +160,6 @@ func TestSearch(t *testing.T) {
 				Email:        "john.doe@email.com",
 				Password:     "123",
 				PasswordHash: "xxx",
-				Role:         valueObjects.RoleTypeAdmin,
 				CreatedAt:    now,
 				UpdatedAt:    now,
 			},

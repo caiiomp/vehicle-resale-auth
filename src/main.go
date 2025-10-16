@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/joho/godotenv/autoload"
 	swaggerFiles "github.com/swaggo/files"
@@ -14,13 +13,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/auth"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/useCases/user"
 	_ "github.com/caiiomp/vehicle-resale-auth/src/docs"
+	"github.com/caiiomp/vehicle-resale-auth/src/presentation"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/authApi"
 	"github.com/caiiomp/vehicle-resale-auth/src/presentation/userApi"
-	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
+	"github.com/caiiomp/vehicle-resale-auth/src/repository/mongodb/userRepository"
 )
 
 func main() {
@@ -32,8 +31,6 @@ func main() {
 
 		validate = validator.New()
 	)
-
-	addValidators(validate)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -49,14 +46,17 @@ func main() {
 		log.Fatalf("could not connect to database: %v", err)
 	}
 
+	// Collections
 	collection := mongoClient.Database(mongoDatabase).Collection("vehicles")
 
+	// Repositories
 	userRepository := userRepository.NewUserRepository(collection)
 
+	// Services
 	userService := user.NewUserService(validate, userRepository)
 	authService := auth.NewAuthService(userRepository, jwtSecretKey)
 
-	app := gin.Default()
+	app := presentation.SetupServer()
 
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
@@ -66,8 +66,4 @@ func main() {
 	if err = app.Run(":4000"); err != nil {
 		log.Fatalf("coult not initialize http server: %v", err)
 	}
-}
-
-func addValidators(validate *validator.Validate) {
-	validate.RegisterStructValidation(valueObjects.RoleTypeValidation, valueObjects.RoleType{})
 }

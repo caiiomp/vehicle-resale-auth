@@ -4,24 +4,18 @@ import (
 	"context"
 	"fmt"
 
+	interfaces "github.com/caiiomp/vehicle-resale-auth/src/core/_interfaces"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
-	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type UserService interface {
-	Create(ctx context.Context, user entity.User) (*entity.User, error)
-	GetByID(ctx context.Context, id string) (*entity.User, error)
-	Search(ctx context.Context) ([]entity.User, error)
-}
-
 type userService struct {
 	validate       *validator.Validate
-	userRepository userRepository.UserRepository
+	userRepository interfaces.UserRepository
 }
 
-func NewUserService(validate *validator.Validate, userRepository userRepository.UserRepository) UserService {
+func NewUserService(validate *validator.Validate, userRepository interfaces.UserRepository) interfaces.UserService {
 	return &userService{
 		validate:       validate,
 		userRepository: userRepository,

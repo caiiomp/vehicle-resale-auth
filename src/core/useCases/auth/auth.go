@@ -5,22 +5,18 @@ import (
 	"fmt"
 	"time"
 
+	interfaces "github.com/caiiomp/vehicle-resale-auth/src/core/_interfaces"
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
-	"github.com/caiiomp/vehicle-resale-auth/src/repository/userRepository"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthService interface {
-	Login(ctx context.Context, email, password string) (*entity.Auth, error)
-}
-
 type authService struct {
-	userRepository userRepository.UserRepository
+	userRepository interfaces.UserRepository
 	jwtSecretKey   string
 }
 
-func NewAuthService(userRepository userRepository.UserRepository, jwtSecretKey string) AuthService {
+func NewAuthService(userRepository interfaces.UserRepository, jwtSecretKey string) interfaces.AuthService {
 	return &authService{
 		userRepository: userRepository,
 		jwtSecretKey:   jwtSecretKey,
@@ -48,7 +44,6 @@ func (ref *authService) Login(ctx context.Context, email string, password string
 
 	claims := jwt.MapClaims{
 		"user_id": user.ID,
-		"role":    user.Role.Value,
 		"exp":     expiresIn,
 	}
 

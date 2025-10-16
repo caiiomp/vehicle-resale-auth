@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
-	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -19,7 +18,6 @@ func TestUserFromDomain(t *testing.T) {
 		ID:        userID,
 		Name:      "John Doe",
 		Email:     "john.doe@email.com",
-		Role:      valueObjects.RoleTypeAdmin,
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
@@ -28,7 +26,6 @@ func TestUserFromDomain(t *testing.T) {
 		ID:        userID,
 		Name:      "John Doe",
 		Email:     "john.doe@email.com",
-		Role:      "ADMIN",
 		CreatedAt: now,
 		UpdatedAt: now,
 	}

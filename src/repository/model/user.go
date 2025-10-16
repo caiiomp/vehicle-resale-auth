@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/caiiomp/vehicle-resale-auth/src/core/domain/entity"
-	valueoObjects "github.com/caiiomp/vehicle-resale-auth/src/core/domain/valueObjects"
 )
 
 type User struct {
@@ -12,7 +11,6 @@ type User struct {
 	Name         string    `json:"name,omitempty" bson:"name,omitempty"`
 	Email        string    `json:"email,omitempty" bson:"email,omitempty"`
 	PasswordHash string    `json:"password_hash,omitempty" bson:"password_hash,omitempty"`
-	Role         string    `json:"role,omitempty" bson:"role,omitempty"`
 	CreatedAt    time.Time `json:"created_at,omitempty" bson:"created_at,omitempty"`
 	UpdatedAt    time.Time `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
@@ -23,7 +21,6 @@ func UserFromDomain(user entity.User) User {
 		Name:         user.Name,
 		Email:        user.Email,
 		PasswordHash: user.PasswordHash,
-		Role:         user.Role.Value,
 		CreatedAt:    user.CreatedAt,
 		UpdatedAt:    user.UpdatedAt,
 	}
@@ -34,7 +31,6 @@ func (ref User) ToDomain() *entity.User {
 		ID:           ref.ID,
 		Name:         ref.Name,
 		Email:        ref.Email,
-		Role:         valueoObjects.RoleType{Value: ref.Role},
 		PasswordHash: ref.PasswordHash,
 		CreatedAt:    ref.CreatedAt,
 		UpdatedAt:    ref.UpdatedAt,
