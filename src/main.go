@@ -46,13 +46,10 @@ func main() {
 		log.Fatalf("could not connect to database: %v", err)
 	}
 
-	// Collections
 	collection := mongoClient.Database(mongoDatabase).Collection("users")
 
-	// Repositories
 	userRepository := userRepository.NewUserRepository(collection)
 
-	// Services
 	userService := user.NewUserService(validate, userRepository)
 	authService := auth.NewAuthService(userRepository, jwtSecretKey)
 
