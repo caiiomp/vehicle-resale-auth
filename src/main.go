@@ -47,7 +47,7 @@ func main() {
 	}
 
 	// Collections
-	collection := mongoClient.Database(mongoDatabase).Collection("vehicles")
+	collection := mongoClient.Database(mongoDatabase).Collection("users")
 
 	// Repositories
 	userRepository := userRepository.NewUserRepository(collection)
