@@ -55,7 +55,7 @@ Antes de rodar o serviço localmente, verifique se você tem as seguintes depend
     go run src/main.go
     ```
 
-    A API de autenticação estará disponível em `http://localhost:4000`.
+    A API de autenticação estará disponível em `http://localhost:8080`.
 
 ### 4. Testando a API de Autenticação
 
@@ -88,5 +88,5 @@ Authorization: Bearer <token-jwt>
 
 Para acessar a documentação do serviço, acessar o seguinte endpoint: 
 ```
-http://localhost:4000/swagger/index.html
+http://localhost:8080/swagger/index.html
 ```

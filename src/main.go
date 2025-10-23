@@ -63,7 +63,7 @@ func main() {
 	userApi.RegisterUserRoutes(app, userService)
 	authApi.RegisterAuthRoutes(app, authService)
 
-	if err = app.Run(":4000"); err != nil {
+	if err = app.Run(":8080"); err != nil {
 		log.Fatalf("coult not initialize http server: %v", err)
 	}
 }
