@@ -162,6 +162,15 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "Get User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -231,9 +240,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "role": {
-                    "type": "string"
-                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -244,8 +250,7 @@ const docTemplate = `{
             "required": [
                 "email",
                 "name",
-                "password",
-                "role"
+                "password"
             ],
             "properties": {
                 "email": {
@@ -255,9 +260,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
-                },
-                "role": {
                     "type": "string"
                 }
             }

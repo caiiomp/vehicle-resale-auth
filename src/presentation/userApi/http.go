@@ -93,6 +93,7 @@ func (ref *userApi) search(ctx *gin.Context) {
 // @Tags User
 // @Accept json
 // @Produce json
+// @Param user_id path string true "User ID"
 // @Success 200 {object} responses.User
 // @Failure 204 {object} responses.ErrorResponse
 // @Failure 500 {object} responses.ErrorResponse
